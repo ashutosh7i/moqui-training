@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+     Task-3     entity auto service
+    <service verb="create" noun="MoquiTraining" type="entity-auto">
+        <in-parameters>
+            <auto-parameters entity-name="MoquiTraining" include="nonpk"/>
+            <parameter name="trainingName" required="true"/>
+            <parameter name="trainingDate" required="true">
+                <time-range after="now" format="mm/dd/yyyy"/>
+            </parameter>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="trainingId"/>
+        </out-parameters>
+    </service>
+
+    <!-- Task-3     Default Inline Service calls entity auto inline     -->
+    <service verb="create" noun="MoquiTrainingDefaultInline">
+        <in-parameters>
+            <parameter name="trainingName" required="true"/>
+            <parameter name="trainingDate" required="true">
+                <time-range after="now" format="mm/dd/yyyy"/>
+            </parameter>
+            <parameter name="trainingPrice"/>
+            <parameter name="trainingDuration"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="trainingId"/>
+        </out-parameters>
+        <actions>
+            <service-call name="create#MoquiTraining" in-map="context" out-map="context"/>
+        </actions>
+    </service>
+
+    <!-- Task-3     Groovy service call-->
+    <service verb="create" noun="MoquiTrainingGroovy">
+        <in-parameters>
+            <auto-parameters entity-name="MoquiTraining" include="nonpk"/>
+            <parameter name="trainingName" required="true"/>
+            <parameter name="trainingDate" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="trainingId"/>
+        </out-parameters>
+        <actions>
+            <script>
+                def training = ec.entity.makeValue("MoquiTraining")
+                training.setFields(context, true, null, null)
+                training.setSequencedIdPrimary()
+                training.create()
+                // Set the trainingId in the context
+                context.trainingId = training.trainingId
+            </script>
+        </actions>
+    </service>
+
+   
+</services>
