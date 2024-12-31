@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/rest-api-3.xsd"
+          name="online-retail-business-org" displayName="OnlineRetailBusinessOrg API" version="1.0.0">
+
+    <!--    party crud endpoints at /party -->
+    <resource name="parties" require-authentication="anonymous-all">
+        <method type="post">
+            <service name="PartyService.create#Party"/>
+        </method>
+        <!--        party crud endpoints at /party/{partyId}-->
+        <id name="partyId">
+            <method type="get">
+                <service name="PartyService.find#Party"/>
+            </method>
+            <method type="put">
+                <service name="PartyService.update#Party"/>
+            </method>
+            <method type="delete">
+                <service name="PartyService.delete#Party"/>
+            </method>
+            <!--    contacts crud endpoints at /party/{partyId}/contact -->
+            <resource name="contacts" require-authentication="anonymous-all">
+                <method type="post">
+                    <service name="ContactMechService.create#ContactMech"/>
+                </method>
+                <method type="get">
+                    <service name="ContactMechService.find#ContactMech"/>
+                </method>
+                <!--                contacts crud endpoints at /party/{partyId}/contact/{contactMechId}-->
+                <id name="contactMechId">
+                    <method type="put">
+                        <service name="ContactMechService.update#ContactMech"/>
+                    </method>
+                    <method type="delete">
+                        <service name="ContactMechService.delete#ContactMech"/>
+                    </method>
+                </id>
+            </resource>
+        </id>
+    </resource>
+
+    <!--    product crud endpoints at /products-->
+    <resource name="products" require-authentication="anonymous-all">
+        <method type="post">
+            <service name="ProductService.create#Product"/>
+        </method>
+        <!--    product crud endpoints at /products/{productId} -->
+        <id name="productId">
+            <method type="get">
+                <service name="ProductService.find#Product"/>
+            </method>
+            <method type="put">
+                <service name="ProductService.update#Product"/>
+            </method>
+            <method type="delete">
+                <service name="ProductService.delete#Product"/>
+            </method>
+        </id>
+    </resource>
+
+    <!--    order crud endpoints at /order-->
+    <resource name="order" require-authentication="anonymous-all">
+        <method type="post">
+            <service name="OrderHeaderService.create#OrderHeader"/>
+        </method>
+        <!--    order crud endpoints at /order/{orderId} -->
+        <id name="orderId">
+            <method type="get">
+                <service name="OrderHeaderService.find#OrderHeader"/>
+            </method>
+            <method type="put">
+                <service name="OrderHeaderService.update#OrderHeader"/>
+            </method>
+            <method type="delete">
+                <service name="OrderHeaderService.delete#OrderHeader"/>
+            </method>
+            <!--    order crud endpoints at /order/{orderId}/items -->
+            <resource name="items" require-authentication="anonymous-all">
+                <method type="post">
+                    <service name="OrderItemService.create#OrderItem"/>
+                </method>
+            </resource>
+        </id>
+
+    </resource>
+
+
+    <!--        <id name="exampleFeatureId">-->
+    <!--            <method type="get"><entity name="exampleFeatures" operation="one"/></method>-->
+    <!--            <method type="patch"><entity name="exampleFeatures" operation="update"/></method>-->
+
+    <!--&lt;!&ndash;            <resource name="featureAppls">&ndash;&gt;-->
+    <!--&lt;!&ndash;                <method type="get"><entity name="moqui.example.ExampleFeatureAppl" operation="list"/></method>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;                <id name="exampleId">&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <method type="get"><entity name="moqui.example.ExampleFeatureAppl" operation="list"/></method>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <method type="post"><service name="moqui.example.ExampleServices.create#ExampleFeatureAppl"/></method>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;                    <id name="fromDate">&ndash;&gt;-->
+    <!--&lt;!&ndash;                        <method type="get"><entity name="moqui.example.ExampleFeatureAppl" operation="one"/></method>&ndash;&gt;-->
+    <!--&lt;!&ndash;                        <method type="patch"><entity name="moqui.example.ExampleFeatureAppl" operation="update"/></method>&ndash;&gt;-->
+    <!--&lt;!&ndash;                        <method type="put"><entity name="moqui.example.ExampleFeatureAppl" operation="store"/></method>&ndash;&gt;-->
+    <!--&lt;!&ndash;                        <method type="delete"><entity name="moqui.example.ExampleFeatureAppl" operation="delete"/></method>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    </id>&ndash;&gt;-->
+    <!--&lt;!&ndash;                </id>&ndash;&gt;-->
+    <!--&lt;!&ndash;            </resource>&ndash;&gt;-->
+    <!--        </id>-->
+
+</resource>

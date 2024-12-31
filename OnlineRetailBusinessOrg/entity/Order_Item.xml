@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-2.1.xsd">
+    <entity entity-name="OrderItem" package="OnlineRetailBusinessOrg">
+        <field name="orderItemSeqId" type="id" is-pk="true"/>
+        <field name="orderId" type="text-short" not-null="true"/>
+        <field name="productId" type="text-short"/>
+        <field name="quantity" type="number-integer" not-null="true"/>
+        <field name="status" type="text-short"/>
+
+        <!--        one order header can contain multiple order items but
+        one order item belongs only one header -->
+        <relationship type="one" title="OrderHeader" related="OrderHeader">
+            <key-map field-name="orderId"/>
+        </relationship>
+        <!--        one product can appear in multiple order items but
+        each order item refers to only one product. -->
+        <relationship type="one" title="Product" related="Product">
+            <key-map field-name="productId"/>
+        </relationship>
+
+    </entity>
+
+</entities>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+
+    <!--    1. create order item-->
+    <!--    2. find order item-->
+    <!--    3. store order item-->
+    <!--    4. delete order item-->
+
+    <!--    1. create order item by post-->
+    <!--    test: OK-->
+    <service verb="create" noun="OrderItem" type="entity-auto">
+        <in-parameters>
+            <auto-parameters entity-name="OrderItem" include="nonpk"/>
+            <parameter name="orderId" required="true"/>
+            <parameter name="productId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="orderItemSeqId"/>
+        </out-parameters>
+    </service>
+
+</services>

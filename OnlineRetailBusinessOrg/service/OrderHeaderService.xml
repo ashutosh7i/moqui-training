@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <!--    1. create order header-->
+    <!--    test: OK-->
+    <service verb="create" noun="OrderHeader" type="entity-auto">
+        <in-parameters>
+            <auto-parameters entity-name="OrderHeader" include="nonpk"/>
+            <parameter name="orderDate" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="orderId"/>
+        </out-parameters>
+    </service>
+
+    <!--    2. get order by orderHeader-->
+    <!--    test: OK-->
+    <service verb="find" noun="OrderHeader">
+        <in-parameters>
+            <parameter name="orderId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="foundOrderHeaderList" type="list"/>
+        </out-parameters>
+        <actions>
+            <!--    returns entity list if found, else empty list-->
+            <entity-find entity-name="OrderHeader" list="foundOrderHeaderList">
+                <econdition field-name="orderId"/>
+                <select-field field-name="orderDate"/>
+                <select-field field-name="partyId"/>
+                <select-field field-name="orderId"/>
+                <select-field field-name="shippingContactMechId"/>
+                <select-field field-name="billingContactMechId"/>
+                <select-field field-name="lastUpdatedStamp"/>
+            </entity-find>
+        </actions>
+    </service>
+
+    <!--    3. update order -->
+    <!--    test: OK-->
+    <service verb="update" noun="OrderHeader" type="entity-auto">
+        <in-parameters>
+            <auto-parameters entity-name="OrderHeader" include="nonpk"/>
+            <parameter name="orderId" required="true"/>
+            <parameter name="orderDate" required="true"/>
+        </in-parameters>
+    </service>
+
+    <!--    4. delete order -->
+    <!--    test: OK-->
+    <service verb="delete" noun="OrderHeader" type="entity-auto">
+        <in-parameters>
+            <parameter name="orderId" required="true"/>
+        </in-parameters>
+    </service>
+
+</services>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-2.1.xsd">
+    <entity entity-name="OrderHeader" package="OnlineRetailBusinessOrg">
+        <field name="orderId" type="id" is-pk="true"/>
+        <field name="orderDate" type="date" not-null="true"/>
+        <field name="partyId" type="text-short"/>
+        <field name="shippingContactMechId" type="text-short"/>
+        <field name="billingContactMechId" type="text-short"/>
+
+        <!--        one party can have multiple order headers-->
+        <relationship type="one" title="Party" related="Party">
+            <key-map field-name="partyId"/>
+        </relationship>
+
+
+        <!--        one order can have multiple order items-->
+        <relationship type="many" title="OrderItem" related="OrderItem">
+            <key-map field-name="orderId"/>
+        </relationship>
+    </entity>
+</entities>
+        <!--how mysql is defined.-->

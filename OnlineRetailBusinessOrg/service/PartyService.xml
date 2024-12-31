@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+
+    <!--    1. create party create-->
+    <!--    2. find party-->
+    <!--    3. store party-->
+    <!--    4. delete party-->
+
+    <!--    1. create party by post-->
+    <!--    test: OK 100102 -->
+    <service verb="create" noun="Party" type="entity-auto">
+        <in-parameters>
+            <auto-parameters entity-name="Party" include="nonpk"/>
+            <parameter name="partyType" required="true"/>
+            <parameter name="firstName" required="true"/>
+            <parameter name="lastName"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="partyId"/>
+        </out-parameters>
+    </service>
+
+    <!--    2. get party by partyid-->
+    <!--    test: OK-->
+    <service verb="find" noun="Party">
+        <in-parameters>
+            <parameter name="partyId" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="foundPartyList" type="list"/>
+        </out-parameters>
+        <actions>
+            <!--    returns entity list if found, else empty list-->
+            <entity-find entity-name="Party" list="foundPartyList">
+                <econdition field-name="partyId"/>
+                <!--                explicitly selected fields only, null value of others-->
+                <!--                <select-field field-name="partyId"/>-->
+                <!--                <select-field field-name="partyType"/>-->
+                <!--                <select-field field-name="firstName"/>-->
+                <!--                <select-field field-name="lastName" />-->
+            </entity-find>
+        </actions>
+    </service>
+
+    <!--        3. update party-->
+    <!--    test: OK-->
+    <service verb="update" noun="Party" type="entity-auto">
+        <in-parameters>
+            <auto-parameters entity-name="Party" include="nonpk"/>
+            <parameter name="partyId" required="true"/>
+            <parameter name="partyType" required="true"/>
+        </in-parameters>
+    </service>
+
+    <!--    4. delete party-->
+    <!--    test: OK-->
+    <service verb="delete" noun="Party" type="entity-auto">
+        <in-parameters>
+            <parameter name="partyId" required="true"/>
+        </in-parameters>
+    </service>
+
+</services>
