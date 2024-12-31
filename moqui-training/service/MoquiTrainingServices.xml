@@ -2,19 +2,19 @@
 <services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
 
-     Task-3     entity auto service
-    <service verb="create" noun="MoquiTraining" type="entity-auto">
-        <in-parameters>
-            <auto-parameters entity-name="MoquiTraining" include="nonpk"/>
-            <parameter name="trainingName" required="true"/>
-            <parameter name="trainingDate" required="true">
-                <time-range after="now" format="mm/dd/yyyy"/>
-            </parameter>
-        </in-parameters>
-        <out-parameters>
-            <parameter name="trainingId"/>
-        </out-parameters>
-    </service>
+    <!-- Task-3     entity auto service  -->
+<!--    <service verb="create" noun="MoquiTraining" type="entity-auto">-->
+<!--        <in-parameters>-->
+<!--            <auto-parameters entity-name="MoquiTraining" include="nonpk"/>-->
+<!--            <parameter name="trainingName" required="true"/>-->
+<!--            <parameter name="trainingDate" required="true">-->
+<!--                <time-range after="now" format="mm/dd/yyyy"/>-->
+<!--            </parameter>-->
+<!--        </in-parameters>-->
+<!--        <out-parameters>-->
+<!--            <parameter name="trainingId"/>-->
+<!--        </out-parameters>-->
+<!--    </service>-->
 
     <!-- Task-3     Default Inline Service calls entity auto inline     -->
     <service verb="create" noun="MoquiTrainingDefaultInline">
@@ -56,5 +56,65 @@
         </actions>
     </service>
 
-   
+    <!--    Task-4 -->
+    <!--    Task 4- Find entity      -->
+    <!--    entity auto cannot be used here because-verb must be one of [create, update, store, delete] for entity-auto type services.-->
+    <service verb="find" noun="TrainingInfo">
+        <in-parameters>
+            <parameter name="trainingName" required="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="moquiTrainingDataList" type="list"/>
+        </out-parameters>
+        <actions>
+            <!--    returns entity list if found, else empty list-->
+            <entity-find entity-name="MoquiTraining" list="moquiTrainingDataList">
+                <econdition field-name="trainingName"/>
+                <select-field field-name="trainingName"/>
+                <select-field field-name="trainingId"/>
+                <select-field field-name="trainingDate"/>
+            </entity-find>
+        </actions>
+    </service>
+
+    <!--   Task 4- create or update entity      -->
+    <service verb="store" noun="MoquiTrainingUpdate">
+        <description>Create or update MoquiTraining records based on trainingName or trainingId.</description>
+
+        <in-parameters>
+            <parameter name="trainingId" required="true"/>
+            <parameter name="trainingName" required="true"/>
+            <parameter name="trainingDate" required="true"/>
+            <auto-parameters entity-name="MoquiTraining" include="nonpk"/>
+        </in-parameters>
+
+        <out-parameters>
+            <parameter name="trainingId"/>
+        </out-parameters>
+
+        <actions>
+
+            <entity-find-one entity-name="MoquiTraining" value-field="existingRecord">
+                <field-map field-name="trainingId" from="trainingId"/>
+            </entity-find-one>
+
+            <if condition="existingRecord">
+                <then>
+                    <set field="existingRecord.trainingDate" from="trainingDate"/>
+                    <set field="existingRecord.trainingName" from="trainingName"/>
+                    <set field="existingRecord.trainingPrice" from="trainingPrice"/>
+                    <set field="existingRecord.trainingDuration" from="trainingDuration"/>
+                    <entity-update value-field="existingRecord"/>
+                    <set field="trainingId" from="existingRecord.trainingId"/>
+                </then>
+                <else>
+                    <service-call name="create#MoquiTraining" in-map="context" out-map="context"/>
+                </else>
+
+            </if>
+
+        </actions>
+    </service>
+
+
 </services>
